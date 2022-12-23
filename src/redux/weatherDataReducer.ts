@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
 
 type WeatherType = {
+    id: number
     name: string
     main: {
         temp: number
@@ -34,15 +35,25 @@ const initialState: weatherDataType = {
 export const weatherDataReducer = createSlice({
     name:"weatherData",
     initialState,
-    reducers:{},
+    reducers:{
+        deliteCity: (state, action) => {
+            for(let i = 0; i < state.cities.length; i++) {
+                if(action.payload.id === state.cities[i].id) {
+                    state.cities.splice(i, 1)
+                    localStorage.setItem("citiesLocalData", JSON.stringify(state.cities))
+                }
+            }
+        }
+    },
     extraReducers: (builder) => {
         builder
         .addCase(fetchWeather.fulfilled, (state, action) => {
             state.cities.push(action.payload)
+            localStorage.setItem("citiesLocalData", JSON.stringify(state.cities))
         })
     }
 })
 
-export const {} = weatherDataReducer.actions
+export const {deliteCity} = weatherDataReducer.actions
 
 export default weatherDataReducer.reducer

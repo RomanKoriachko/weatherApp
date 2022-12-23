@@ -1,4 +1,5 @@
 type WeatherProps = {
+    id: number
     name: string
     main: {
         temp: number

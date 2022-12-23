@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import AddNewCity from '../../components/AddNesCity/AddNewCity'
 import WeatherItem from '../../components/WeatherItem/WeatherItem'
 import { useAppSelector } from '../../redux/hooks'
 import { AppDispatch } from '../../redux/store'
-import { fetchWeather, weatherDataType } from '../../redux/weatherDataReducer'
+import { deliteCity, fetchWeather } from '../../redux/weatherDataReducer'
 
 type Props = {}
 type WeatherType = {
+    id: number
     name: string
     main: {
         temp: number
@@ -14,40 +16,44 @@ type WeatherType = {
 }
 
 const Main = (props: Props) => {
-    const [cityName, addCityName] = useState<string>('')
-    const weatherStoreData = useAppSelector((state) => state.weatherDataState)
+    let weatherStoreData = useAppSelector((state) => state.weatherDataState)
     const dispatch = useDispatch<AppDispatch>()
 
-    const handleChangeCity = (e: React.ChangeEvent<HTMLInputElement>) => {
-        addCityName(e.target.value)
+    useEffect(() => {
+        getlocalData()
+    }, [])
+
+    const getlocalData = () => {
+        const raw = localStorage.getItem('citiesLocalData')
+        let citiesLocalData: WeatherType[]
+        if (raw) {
+            citiesLocalData = JSON.parse(raw)
+            for (let i = 0; i < 1; i++) {
+                citiesLocalData.map((element) => {
+                    dispatch(fetchWeather(element.name))
+                })
+            }
+            console.log(citiesLocalData)
+        }
     }
 
-    const onShowClick = () => {
-        dispatch(fetchWeather(cityName))
-    }
+    console.log(weatherStoreData.cities)
 
-    // localStorage.setItem('weatherData', JSON.stringify(weatherStoreData))
-    // const raw = localStorage.getItem('weatherData')
-    // let weatherLocalData
-    // if (raw) {
-    //     weatherLocalData = JSON.parse(raw)
-    // }
-    // console.log(weatherLocalData)
+    // localStorage.clear()
 
     return (
         <div>
-            <input
-                type="text"
-                placeholder="город"
-                value={cityName}
-                onChange={handleChangeCity}
-            />
-            <button onClick={onShowClick}>Добавить</button>
+            <AddNewCity />
             <div>
                 {weatherStoreData.cities.map(
-                    ({ name, main }: WeatherType, i: number) => (
-                        <div key={i}>
-                            <WeatherItem name={name} main={main} />
+                    ({ name, main, id }: WeatherType) => (
+                        <div key={id}>
+                            <WeatherItem name={name} main={main} id={id} />
+                            <button
+                                onClick={() => dispatch(deliteCity({ id: id }))}
+                            >
+                                delite
+                            </button>
                         </div>
                     )
                 )}
