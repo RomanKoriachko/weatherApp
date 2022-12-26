@@ -1,3 +1,8 @@
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '../../redux/store'
+import { deliteCity, refreshData } from '../../redux/weatherDataReducer'
+import './weatherItem.scss'
+
 type WeatherProps = {
     id: number
     name: string
@@ -6,11 +11,17 @@ type WeatherProps = {
     }
 }
 
-const WeatherItem = ({ name, main }: WeatherProps) => {
+const WeatherItem = ({ name, main, id }: WeatherProps) => {
+    const dispatch = useDispatch<AppDispatch>()
+
     return (
         <>
             <div>{name}</div>
             <div>{main.temp}</div>
+            <button onClick={() => dispatch(refreshData({ id: id }))}>
+                Обновить
+            </button>
+            <button onClick={() => dispatch(deliteCity({ id: id }))}>X</button>
         </>
     )
 }

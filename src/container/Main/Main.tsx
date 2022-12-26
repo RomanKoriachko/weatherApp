@@ -47,13 +47,8 @@ const Main = (props: Props) => {
             <div>
                 {weatherStoreData.cities.map(
                     ({ name, main, id }: WeatherType) => (
-                        <div key={id}>
+                        <div className="weather-item" key={id}>
                             <WeatherItem name={name} main={main} id={id} />
-                            <button
-                                onClick={() => dispatch(deliteCity({ id: id }))}
-                            >
-                                delite
-                            </button>
                         </div>
                     )
                 )}

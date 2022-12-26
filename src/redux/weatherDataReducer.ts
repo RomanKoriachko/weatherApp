@@ -43,6 +43,14 @@ export const weatherDataReducer = createSlice({
                     localStorage.setItem("citiesLocalData", JSON.stringify(state.cities))
                 }
             }
+        },
+        refreshData: (state, action) => {
+            for(let i = 0; i < state.cities.length; i++) {
+                if(action.payload.id === state.cities[i].id) {
+                    fetchWeather(state.cities[i].name)
+                    console.log(state.cities[i].main.temp)
+                }
+            }
         }
     },
     extraReducers: (builder) => {
@@ -54,6 +62,6 @@ export const weatherDataReducer = createSlice({
     }
 })
 
-export const {deliteCity} = weatherDataReducer.actions
+export const {deliteCity, refreshData} = weatherDataReducer.actions
 
 export default weatherDataReducer.reducer
