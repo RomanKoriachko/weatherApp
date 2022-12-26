@@ -6,6 +6,16 @@ type WeatherType = {
     main: {
         temp: number
     }
+    weather: weatherArrayType[]
+    wind: {
+        deg: number,
+        speed: number,
+    }
+}
+type weatherArrayType = {
+    main: string,
+    icon: string,
+    description: string
 }
 export type weatherDataType = {
     cities: WeatherType[],

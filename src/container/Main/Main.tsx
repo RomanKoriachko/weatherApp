@@ -1,10 +1,12 @@
-import { useEffect } from 'react'
+import Grid from '@mui/material/Grid'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import AddNewCity from '../../components/AddNesCity/AddNewCity'
 import WeatherItem from '../../components/WeatherItem/WeatherItem'
 import { useAppSelector } from '../../redux/hooks'
 import { AppDispatch } from '../../redux/store'
-import { deliteCity, fetchWeather } from '../../redux/weatherDataReducer'
+import { fetchWeather } from '../../redux/weatherDataReducer'
+import './Main.scss'
 
 type Props = {}
 type WeatherType = {
@@ -13,12 +15,19 @@ type WeatherType = {
     main: {
         temp: number
     }
+    weather: weatherArrayType[]
+    wind: {
+        deg: number
+        speed: number
+    }
+}
+type weatherArrayType = {
+    main: string
+    icon: string
+    description: string
 }
 
 const Main = (props: Props) => {
-    let weatherStoreData = useAppSelector((state) => state.weatherDataState)
-    const dispatch = useDispatch<AppDispatch>()
-
     useEffect(() => {
         getlocalData()
     }, [])
@@ -33,25 +42,42 @@ const Main = (props: Props) => {
                     dispatch(fetchWeather(element.name))
                 })
             }
-            console.log(citiesLocalData)
+            // console.log(citiesLocalData)
         }
     }
+
+    let weatherStoreData = useAppSelector((state) => state.weatherDataState)
+    const dispatch = useDispatch<AppDispatch>()
 
     console.log(weatherStoreData.cities)
 
     // localStorage.clear()
 
     return (
-        <div>
+        <div className="container">
             <AddNewCity />
             <div>
-                {weatherStoreData.cities.map(
-                    ({ name, main, id }: WeatherType) => (
-                        <div className="weather-item" key={id}>
-                            <WeatherItem name={name} main={main} id={id} />
-                        </div>
-                    )
-                )}
+                <Grid
+                    container
+                    spacing={2}
+                    style={{
+                        marginTop: 50,
+                    }}
+                >
+                    {weatherStoreData.cities.map(
+                        ({ name, main, id, weather, wind }: WeatherType) => (
+                            <Grid item xs={4} key={id}>
+                                <WeatherItem
+                                    name={name}
+                                    main={main}
+                                    id={id}
+                                    weather={weather}
+                                    wind={wind}
+                                />
+                            </Grid>
+                        )
+                    )}
+                </Grid>
             </div>
         </div>
     )
