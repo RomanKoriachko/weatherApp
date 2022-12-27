@@ -1,5 +1,4 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
-import { act } from "@testing-library/react"
 
 type WeatherType = {
     id: number
@@ -28,7 +27,13 @@ export const fetchWeather = createAsyncThunk(
     }
 )
 
-const initialState: WeatherType[] = []
+const raw = localStorage.getItem('citiesLocalData')
+let citiesLocalData: WeatherType[] = []
+if (raw) {
+    citiesLocalData = JSON.parse(raw)
+}
+
+const initialState: WeatherType[] = citiesLocalData
 
 export const weatherDataReducer = createSlice({
     name:"weatherData",
@@ -43,12 +48,6 @@ export const weatherDataReducer = createSlice({
             }
         },
         refreshData: (state, action) => {
-            // for(let i = 0; i < state.length; i++) {
-            //     if(action.payload.id === state[i].id) {
-            //         fetchWeather(state[i].name)
-            //         console.log(state[i].wind.deg)
-            //     }
-            // }
             for(let i = 0; i < state.length; i++) {
                 if(action.payload.name === state[i].name) {
                     state[i].main.temp = action.payload.temp
@@ -57,6 +56,9 @@ export const weatherDataReducer = createSlice({
                 }
             }
             localStorage.setItem("citiesLocalData", JSON.stringify(state))
+        },
+        setNewState: (state, action) => {
+            state = JSON.parse(JSON.stringify(action.payload));
         }
     },
     extraReducers: (builder) => {
@@ -68,6 +70,6 @@ export const weatherDataReducer = createSlice({
     }
 })
 
-export const {deliteCity, refreshData} = weatherDataReducer.actions
+export const {deliteCity, refreshData, setNewState} = weatherDataReducer.actions
 
 export default weatherDataReducer.reducer

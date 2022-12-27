@@ -9,6 +9,8 @@ import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
+import { Link } from 'react-router-dom'
+import { useAppSelector } from '../../redux/hooks'
 
 type WeatherType = {
     id: number
@@ -36,7 +38,6 @@ const WeatherItem = ({ name, main, id, weather, wind }: WeatherType) => {
             `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&limit=1&appid=0e51d6c96dee3098092c6bb492e3c800`
         )
         const data = await response.json()
-        console.log(data)
         dispatch(
             refreshData({
                 name: data.name,
@@ -47,33 +48,36 @@ const WeatherItem = ({ name, main, id, weather, wind }: WeatherType) => {
         )
     }
 
+    let weatherStoreData = useAppSelector((state) => state.weatherDataState)
+
     return (
         <Card>
-            <CardMedia
-                className="weather-img"
-                component="img"
-                alt="weather image"
-                height="120"
-                image={`https://openweathermap.org/img/w/${weather[0].icon}.png`}
-                style={{
-                    objectFit: 'contain',
-                }}
-            />
-            <CardContent>
-                <Typography variant="h4">Город: {name}</Typography>
-                <Typography variant="h5">Температура: {main.temp}°С</Typography>
-                <Typography variant="h5">
-                    Скорость ветра: {wind.speed}
-                </Typography>
-                <Typography variant="h5">
-                    Направление ветра: {wind.deg}°
-                </Typography>
-            </CardContent>
+            <Link to={`/${name}`}>
+                <CardMedia
+                    className="weather-img"
+                    component="img"
+                    alt="weather image"
+                    height="120"
+                    image={`https://openweathermap.org/img/w/${weather[0].icon}.png`}
+                    style={{
+                        objectFit: 'contain',
+                    }}
+                />
+                <CardContent>
+                    <Typography variant="h4">Город: {name}</Typography>
+                    <Typography variant="h5">
+                        Температура: {main.temp}°С
+                    </Typography>
+                    <Typography variant="h5">
+                        Скорость ветра: {wind.speed}
+                    </Typography>
+                    <Typography variant="h5">
+                        Направление ветра: {wind.deg}°
+                    </Typography>
+                </CardContent>
+            </Link>
             <CardActions>
                 <Button
-                    // onClick={() =>
-                    //     dispatch(refreshData({ city: name, id: id }))
-                    // }
                     onClick={() => onRefreshClick(name)}
                     variant="contained"
                 >
@@ -82,6 +86,7 @@ const WeatherItem = ({ name, main, id, weather, wind }: WeatherType) => {
                 <Button
                     onClick={() => dispatch(deliteCity({ id: id }))}
                     variant="contained"
+                    disabled={weatherStoreData.length === 1}
                 >
                     Удалить
                 </Button>

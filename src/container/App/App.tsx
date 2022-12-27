@@ -1,10 +1,15 @@
 import Main from '../Main/Main'
+import { Routes, Route } from 'react-router-dom'
 import './App.css'
+import CityPage from '../../pages/CityPage/CityPage'
 
 function App() {
     return (
         <div className="App">
-            <Main />
+            <Routes>
+                <Route path="/" element={<Main />} />
+                <Route path="/:cityName" element={<CityPage />} />
+            </Routes>
         </div>
     )
 }
