@@ -1,4 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
+import { act } from "@testing-library/react"
 
 type WeatherType = {
     id: number
@@ -17,13 +18,6 @@ type weatherArrayType = {
     icon: string,
     description: string
 }
-export type weatherDataType = {
-    cities: WeatherType[],
-    name: string,
-    temp: number
-    loading: boolean,
-    error: null | string,
-}
 
 export const fetchWeather = createAsyncThunk(
     'weatherData/fetchWeather',
@@ -34,40 +28,42 @@ export const fetchWeather = createAsyncThunk(
     }
 )
 
-const initialState: weatherDataType = {
-    cities: [],
-    name: "",
-    temp: 0,
-    loading: false,
-    error: null,
-}
+const initialState: WeatherType[] = []
 
 export const weatherDataReducer = createSlice({
     name:"weatherData",
     initialState,
     reducers:{
         deliteCity: (state, action) => {
-            for(let i = 0; i < state.cities.length; i++) {
-                if(action.payload.id === state.cities[i].id) {
-                    state.cities.splice(i, 1)
-                    localStorage.setItem("citiesLocalData", JSON.stringify(state.cities))
+            for(let i = 0; i < state.length; i++) {
+                if(action.payload.id === state[i].id) {
+                    state.splice(i, 1)
+                    localStorage.setItem("citiesLocalData", JSON.stringify(state))
                 }
             }
         },
         refreshData: (state, action) => {
-            for(let i = 0; i < state.cities.length; i++) {
-                if(action.payload.id === state.cities[i].id) {
-                    fetchWeather(state.cities[i].name)
-                    console.log(state.cities[i].main.temp)
+            // for(let i = 0; i < state.length; i++) {
+            //     if(action.payload.id === state[i].id) {
+            //         fetchWeather(state[i].name)
+            //         console.log(state[i].wind.deg)
+            //     }
+            // }
+            for(let i = 0; i < state.length; i++) {
+                if(action.payload.name === state[i].name) {
+                    state[i].main.temp = action.payload.temp
+                    state[i].wind.deg = action.payload.deg
+                    state[i].wind.speed = action.payload.speed
                 }
             }
+            localStorage.setItem("citiesLocalData", JSON.stringify(state))
         }
     },
     extraReducers: (builder) => {
         builder
         .addCase(fetchWeather.fulfilled, (state, action) => {
-            state.cities.push(action.payload)
-            localStorage.setItem("citiesLocalData", JSON.stringify(state.cities))
+            state.push(action.payload)
+            localStorage.setItem("citiesLocalData", JSON.stringify(state))
         })
     }
 })

@@ -31,6 +31,22 @@ type weatherArrayType = {
 const WeatherItem = ({ name, main, id, weather, wind }: WeatherType) => {
     const dispatch = useDispatch<AppDispatch>()
 
+    async function onRefreshClick(city: string) {
+        const response = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&limit=1&appid=0e51d6c96dee3098092c6bb492e3c800`
+        )
+        const data = await response.json()
+        console.log(data)
+        dispatch(
+            refreshData({
+                name: data.name,
+                temp: data.main.temp,
+                deg: data.wind.deg,
+                speed: data.wind.speed,
+            })
+        )
+    }
+
     return (
         <Card>
             <CardMedia
@@ -55,7 +71,10 @@ const WeatherItem = ({ name, main, id, weather, wind }: WeatherType) => {
             </CardContent>
             <CardActions>
                 <Button
-                    onClick={() => dispatch(refreshData({ id: id }))}
+                    // onClick={() =>
+                    //     dispatch(refreshData({ city: name, id: id }))
+                    // }
+                    onClick={() => onRefreshClick(name)}
                     variant="contained"
                 >
                     Обновить

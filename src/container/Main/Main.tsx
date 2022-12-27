@@ -1,5 +1,5 @@
 import Grid from '@mui/material/Grid'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import AddNewCity from '../../components/AddNesCity/AddNewCity'
 import WeatherItem from '../../components/WeatherItem/WeatherItem'
@@ -29,10 +29,6 @@ type weatherArrayType = {
 
 const Main = (props: Props) => {
     useEffect(() => {
-        getlocalData()
-    }, [])
-
-    const getlocalData = () => {
         const raw = localStorage.getItem('citiesLocalData')
         let citiesLocalData: WeatherType[]
         if (raw) {
@@ -42,14 +38,19 @@ const Main = (props: Props) => {
                     dispatch(fetchWeather(element.name))
                 })
             }
-            // console.log(citiesLocalData)
         }
-    }
+    }, [])
 
     let weatherStoreData = useAppSelector((state) => state.weatherDataState)
     const dispatch = useDispatch<AppDispatch>()
 
-    console.log(weatherStoreData.cities)
+    const res = weatherStoreData.reduce((o: WeatherType[], i) => {
+        if (!o.find((v) => v.id == i.id)) {
+            o.push(i)
+        }
+        return o
+    }, [])
+    console.log(res)
 
     // localStorage.clear()
 
@@ -64,7 +65,7 @@ const Main = (props: Props) => {
                         marginTop: 50,
                     }}
                 >
-                    {weatherStoreData.cities.map(
+                    {res.map(
                         ({ name, main, id, weather, wind }: WeatherType) => (
                             <Grid item xs={4} key={id}>
                                 <WeatherItem

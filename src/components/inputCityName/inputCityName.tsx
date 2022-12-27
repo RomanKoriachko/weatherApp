@@ -17,11 +17,11 @@ const inputCityName = (props: Props) => {
     }
 
     const onAddCityClick = () => {
-        if (weatherStoreData.cities.length === 0) {
+        if (weatherStoreData.length === 0) {
             dispatch(fetchWeather(cityName))
             localStorage.setItem(
                 'citiesLocalData',
-                JSON.stringify(weatherStoreData.cities)
+                JSON.stringify(weatherStoreData)
             )
             addCityName('')
         } else {
@@ -32,15 +32,15 @@ const inputCityName = (props: Props) => {
                     return response.json()
                 })
                 .then((data) => {
-                    for (let i = 0; i < weatherStoreData.cities.length; i++) {
-                        if (data.id === weatherStoreData.cities[i].id) {
+                    for (let i = 0; i < weatherStoreData.length; i++) {
+                        if (data.id === weatherStoreData[i].id) {
                             alert('Этот город уже добавлен')
                             addCityName('')
                         } else {
                             dispatch(fetchWeather(cityName))
                             localStorage.setItem(
                                 'citiesLocalData',
-                                JSON.stringify(weatherStoreData.cities)
+                                JSON.stringify(weatherStoreData)
                             )
                             addCityName('')
                         }
