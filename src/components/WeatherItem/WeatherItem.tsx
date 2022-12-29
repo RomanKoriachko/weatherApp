@@ -40,6 +40,7 @@ const WeatherItem = ({ name, main, id, weather, wind }: WeatherType) => {
         const data = await response.json()
         dispatch(
             refreshData({
+                icon: data.weather[0].icon,
                 name: data.name,
                 temp: data.main.temp,
                 deg: data.wind.deg,
@@ -52,7 +53,13 @@ const WeatherItem = ({ name, main, id, weather, wind }: WeatherType) => {
 
     return (
         <Card>
-            <Link to={`/${name}`}>
+            <Link
+                to={`/${name}`}
+                style={{
+                    textDecoration: 'none',
+                    color: 'black',
+                }}
+            >
                 <CardMedia
                     className="weather-img"
                     component="img"

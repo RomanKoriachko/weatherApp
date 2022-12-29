@@ -26,6 +26,8 @@ type weatherArrayType = {
 const Main = (props: Props) => {
     let weatherStoreData = useAppSelector((state) => state.weatherDataState)
 
+    // console.log(weatherStoreData)
+
     // localStorage.clear()
 
     return (
