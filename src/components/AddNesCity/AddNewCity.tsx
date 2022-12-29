@@ -26,6 +26,13 @@ const AddNewCity = (props: Props) => {
                 `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&limit=1&appid=0e51d6c96dee3098092c6bb492e3c800`
             )
                 .then((response) => response.json())
+                .then((response) => {
+                    if (response.cod === '404') {
+                        alert('Такого города не существует')
+                    } else {
+                        return response
+                    }
+                })
                 .then((data) => {
                     for (let i = 0; i < weatherStoreData.length; i++) {
                         if (weatherStoreData[i].id === data.id) {
@@ -54,7 +61,13 @@ const AddNewCity = (props: Props) => {
                 value={cityName}
                 onChange={handleChangeCity}
             />
-            <Button variant="outlined" onClick={onAddCityClick}>
+            <Button
+                variant="outlined"
+                onClick={onAddCityClick}
+                style={{
+                    height: '56px',
+                }}
+            >
                 Добавить
             </Button>
         </>
