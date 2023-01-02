@@ -1,0 +1,20 @@
+.temperature-wrapper {
+  min-height: 100px;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+}
+.temperature-wrapper .temperature-item {
+  border: 1px solid black;
+  text-align: center;
+  padding: 8px 8px;
+  height: 35px;
+  width: 50px;
+}
+
+.max-temp {
+  margin-bottom: 10px;
+}
+
+.min-temp {
+  margin-top: 10px;
+}

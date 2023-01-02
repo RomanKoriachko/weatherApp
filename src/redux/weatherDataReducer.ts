@@ -5,16 +5,21 @@ type WeatherType = {
     name: string
     main: {
         temp: number
+        temp_max: number
+        temp_min: number
+        pressure: number
+        humidity: number
+        feels_like: number
     }
     weather: weatherArrayType[]
     wind: {
-        deg: number,
-        speed: number,
+        deg: number
+        speed: number
     }
 }
 type weatherArrayType = {
-    main: string,
-    icon: string,
+    main: string
+    icon: string
     description: string
 }
 
@@ -57,6 +62,9 @@ export const weatherDataReducer = createSlice({
                 }
             }
             localStorage.setItem("citiesLocalData", JSON.stringify(state))
+        },
+        deliteData: (state) => {
+            state.splice(0, state.length)
         }
     },
     extraReducers: (builder) => {
@@ -68,6 +76,6 @@ export const weatherDataReducer = createSlice({
     }
 })
 
-export const {deliteCity, refreshData} = weatherDataReducer.actions
+export const {deliteCity, refreshData, deliteData} = weatherDataReducer.actions
 
 export default weatherDataReducer.reducer

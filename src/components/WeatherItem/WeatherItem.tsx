@@ -11,6 +11,7 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from '../../redux/hooks'
+import { fetchTemperature } from '../../redux/dailyTemperatureReducer'
 
 type WeatherType = {
     id: number
@@ -59,6 +60,7 @@ const WeatherItem = ({ name, main, id, weather, wind }: WeatherType) => {
                     textDecoration: 'none',
                     color: 'black',
                 }}
+                onClick={() => dispatch(fetchTemperature(name))}
             >
                 <CardMedia
                     className="weather-img"
@@ -71,15 +73,15 @@ const WeatherItem = ({ name, main, id, weather, wind }: WeatherType) => {
                     }}
                 />
                 <CardContent>
-                    <Typography variant="h4">Город: {name}</Typography>
+                    <Typography variant="h4">Місто: {name}</Typography>
                     <Typography variant="h5">
-                        Температура: {main.temp}°С
+                        Температура: {main.temp} °С
                     </Typography>
                     <Typography variant="h5">
-                        Скорость ветра: {wind.speed}
+                        Швидкість вітру: {wind.speed} м/с
                     </Typography>
                     <Typography variant="h5">
-                        Направление ветра: {wind.deg}°
+                        Напрям вітру: {wind.deg}°
                     </Typography>
                 </CardContent>
             </Link>
@@ -88,14 +90,14 @@ const WeatherItem = ({ name, main, id, weather, wind }: WeatherType) => {
                     onClick={() => onRefreshClick(name)}
                     variant="contained"
                 >
-                    Обновить
+                    Оновити
                 </Button>
                 <Button
                     onClick={() => dispatch(deliteCity({ id: id }))}
                     variant="contained"
                     disabled={weatherStoreData.length === 1}
                 >
-                    Удалить
+                    Видалити
                 </Button>
             </CardActions>
         </Card>

@@ -56,7 +56,7 @@ const AddNewCity = (props: Props) => {
         <>
             <TextField
                 id="outlined-basic"
-                label="Город"
+                label="Місто"
                 variant="outlined"
                 value={cityName}
                 onChange={handleChangeCity}
@@ -66,9 +66,10 @@ const AddNewCity = (props: Props) => {
                 onClick={onAddCityClick}
                 style={{
                     height: '56px',
+                    marginLeft: '10px',
                 }}
             >
-                Добавить
+                Додати
             </Button>
         </>
     )
