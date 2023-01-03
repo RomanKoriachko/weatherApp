@@ -1,6 +1,4 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
-import { useDispatch } from "react-redux"
-import { AppDispatch } from "./store"
 
 type TemperatureType = {
     list: [
@@ -36,7 +34,5 @@ export const dailyTemperatureReducer = createSlice({
         })
     }
 })
-
-export const {} = dailyTemperatureReducer.actions
 
 export default dailyTemperatureReducer.reducer
