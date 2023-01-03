@@ -33,7 +33,6 @@ const WeatherSection = (props: Props) => {
     let citiesArr: string[] = []
 
     useEffect(() => {
-        let citiesArr: string[] = []
         dispatch(deliteData())
         for (let i = 0; i < citiesArr.length; i++) {
             dispatch(fetchWeather(citiesArr[i]))

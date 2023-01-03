@@ -146,28 +146,28 @@ const CityPage = (props: Props) => {
                 }}
             >
                 <CardContent>
-                    <Typography variant="h3">
+                    <Typography variant="h4">
                         Температура:{' '}
                         {currentCityData
                             ? Math.round(currentCityData.main.temp)
                             : undefined}
                         °С
                     </Typography>
-                    <Typography variant="h3">
+                    <Typography variant="h4">
                         Відчувається як:{' '}
                         {currentCityData
                             ? Math.round(currentCityData?.main.feels_like)
                             : undefined}
                         °С
                     </Typography>
-                    <Typography variant="h3">
+                    <Typography variant="h4">
                         Максимальна температура:{' '}
                         {currentCityData
                             ? Math.round(currentCityData?.main.temp_max)
                             : undefined}
                         °С
                     </Typography>
-                    <Typography variant="h3">
+                    <Typography variant="h4">
                         Мінімальна температура:{' '}
                         {currentCityData
                             ? Math.round(currentCityData?.main.temp_min)
@@ -175,7 +175,7 @@ const CityPage = (props: Props) => {
                         °С
                     </Typography>
                     <Typography
-                        variant="h3"
+                        variant="h4"
                         style={{
                             marginBottom: '20px',
                         }}
@@ -211,20 +211,20 @@ const CityPage = (props: Props) => {
                 }}
             >
                 <CardContent>
-                    <Typography variant="h3">
+                    <Typography variant="h4">
                         Швидкість вітру: {currentCityData?.wind.speed} м/с
                     </Typography>
-                    <Typography variant="h3">
+                    <Typography variant="h4">
                         Напрям вітру: {currentCityData?.wind.deg}°
                     </Typography>
                 </CardContent>
             </Card>
             <Card>
                 <CardContent>
-                    <Typography variant="h3">
+                    <Typography variant="h4">
                         Атмосферний тиск: {currentCityData?.main.pressure} Pa
                     </Typography>
-                    <Typography variant="h3">
+                    <Typography variant="h4">
                         Вологість: {currentCityData?.main.humidity} %
                     </Typography>
                 </CardContent>

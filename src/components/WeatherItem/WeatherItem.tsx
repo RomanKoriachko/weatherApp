@@ -10,8 +10,11 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import { Link } from 'react-router-dom'
-import { useAppSelector } from '../../redux/hooks'
 import { fetchTemperature } from '../../redux/dailyTemperatureReducer'
+import RefreshIcon from '@mui/icons-material/Refresh'
+import IconButton from '@mui/material/IconButton'
+import DeleteIcon from '@mui/icons-material/Delete'
+import Grid from '@mui/material/Grid'
 
 type WeatherType = {
     id: number
@@ -19,13 +22,13 @@ type WeatherType = {
     main: {
         temp: number
     }
-    weather: weatherArrayType[]
+    weather: WeatherArrayType[]
     wind: {
         deg: number
         speed: number
     }
 }
-type weatherArrayType = {
+type WeatherArrayType = {
     main: string
     icon: string
     description: string
@@ -49,8 +52,6 @@ const WeatherItem = ({ name, main, id, weather, wind }: WeatherType) => {
             })
         )
     }
-
-    let weatherStoreData = useAppSelector((state) => state.weatherDataState)
 
     return (
         <Card>
@@ -86,19 +87,24 @@ const WeatherItem = ({ name, main, id, weather, wind }: WeatherType) => {
                 </CardContent>
             </Link>
             <CardActions>
-                <Button
-                    onClick={() => onRefreshClick(name)}
-                    variant="contained"
-                >
-                    Оновити
-                </Button>
-                <Button
-                    onClick={() => dispatch(deliteCity({ id: id }))}
-                    variant="contained"
-                    disabled={weatherStoreData.length === 1}
-                >
-                    Видалити
-                </Button>
+                <Grid container justifyContent="flex-end">
+                    <Grid item>
+                        <IconButton
+                            color="primary"
+                            onClick={() => onRefreshClick(name)}
+                        >
+                            <RefreshIcon />
+                        </IconButton>
+                    </Grid>
+                    <Grid item>
+                        <IconButton
+                            color="primary"
+                            onClick={() => dispatch(deliteCity({ id: id }))}
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </Grid>
+                </Grid>
             </CardActions>
         </Card>
     )

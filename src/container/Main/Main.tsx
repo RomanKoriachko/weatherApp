@@ -5,8 +5,6 @@ import WeatherSection from '../../components/WeatherSection/WeatherSection'
 type Props = {}
 
 const Main = (props: Props) => {
-    // localStorage.clear()
-
     return (
         <Container>
             <AddNewCity />
