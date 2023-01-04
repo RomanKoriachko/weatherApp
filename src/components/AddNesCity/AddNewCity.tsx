@@ -18,7 +18,7 @@ const AddNewCity = (props: Props) => {
 
     const onAddCityClick = () => {
         if (cityName === '') {
-            alert('Поле не должно быть пустым')
+            alert('Поле не має бути порожнім')
         } else {
             fetch(
                 `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&limit=1&appid=0e51d6c96dee3098092c6bb492e3c800`
@@ -26,7 +26,7 @@ const AddNewCity = (props: Props) => {
                 .then((response) => response.json())
                 .then((response) => {
                     if (response.cod === '404') {
-                        alert('Такого города не существует')
+                        alert('Такого міста не існує')
                     } else {
                         return response
                     }
@@ -40,7 +40,7 @@ const AddNewCity = (props: Props) => {
                         }
                     }
                     if (duplicates.includes(true)) {
-                        alert('Город уже добавлен')
+                        alert('Місто вже додано')
                         addCityName('')
                     } else {
                         dispatch(fetchWeather(cityName))

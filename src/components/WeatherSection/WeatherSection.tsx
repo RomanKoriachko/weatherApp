@@ -41,8 +41,6 @@ const WeatherSection = (props: Props) => {
         citiesArr.push(weatherStoreData[i].name)
     }
 
-    console.log(weatherStoreData)
-
     return (
         <Grid
             className="weather-section"
