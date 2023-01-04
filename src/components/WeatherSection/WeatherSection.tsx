@@ -1,9 +1,7 @@
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
-import { useAppSelector } from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import WeatherItem from '../../components/WeatherItem/WeatherItem'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../../redux/store'
 import { deliteData, fetchWeather } from '../../redux/weatherDataReducer'
 
 type Props = {}
@@ -28,7 +26,7 @@ type weatherArrayType = {
 
 const WeatherSection = (props: Props) => {
     let weatherStoreData = useAppSelector((state) => state.weatherDataState)
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useAppDispatch()
 
     let citiesArr: string[] = []
 
@@ -43,8 +41,11 @@ const WeatherSection = (props: Props) => {
         citiesArr.push(weatherStoreData[i].name)
     }
 
+    console.log(weatherStoreData)
+
     return (
         <Grid
+            className="weather-section"
             container
             spacing={2}
             style={{

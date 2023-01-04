@@ -1,14 +1,12 @@
 import { Button, TextField } from '@mui/material'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from '../../redux/hooks'
-import { AppDispatch } from '../../redux/store'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { fetchWeather } from '../../redux/weatherDataReducer'
 
 type Props = {}
 
 const AddNewCity = (props: Props) => {
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useAppDispatch()
 
     const [cityName, addCityName] = useState<string>('')
     const duplicates: boolean[] = []

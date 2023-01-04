@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
 
-type WeatherType = {
+export type WeatherType = {
     id: number
     name: string
     main: {

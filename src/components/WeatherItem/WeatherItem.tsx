@@ -2,8 +2,6 @@ import { Card, Typography } from '@mui/material'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../../redux/store'
 import { deliteCity, refreshData } from '../../redux/weatherDataReducer'
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
@@ -15,6 +13,7 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Grid from '@mui/material/Grid'
+import { useAppDispatch } from '../../redux/hooks'
 
 type WeatherType = {
     id: number
@@ -35,7 +34,7 @@ type WeatherArrayType = {
 }
 
 const WeatherItem = ({ name, main, id, weather, wind }: WeatherType) => {
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useAppDispatch()
 
     async function onRefreshClick(city: string) {
         const response = await fetch(
